@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\TheaterController;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\SearchController;
 use App\Models\Movie;
 
 /*
@@ -40,3 +42,6 @@ Route::get('/schedules/{theater}/{id}', function ($theater, $id) {
     $schedules = Movie::getSchedules($theater, $id);
     return $schedules;
 });
+
+Route::post('search', [AjaxController::class, 'ajaxSearch'])->name('search');
+Route::get('search', [SearchController::class, 'index']);
