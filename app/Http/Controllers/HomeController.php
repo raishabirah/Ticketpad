@@ -9,6 +9,11 @@ class HomeController extends Controller
 {
     public function index() 
     {
-        return $post = Movie::getMovie();
+        $posts = Movie::getMovie();
+        return view('index', [
+            "title" => "Arjuna 21",
+            'posts' => $posts,
+            "active" => 'home'
+        ]);
     }
 }

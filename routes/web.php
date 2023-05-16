@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\TheaterController;
+use App\Models\Movie;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,12 @@ use App\Http\Controllers\TheaterController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/movie/{id}', [DetailController::class, 'index']);
 Route::get('/upcoming', function () {
-    return $upcoming = Movie::getUpcoming();
+    $upcoming = Movie::getUpcoming();
+    return view('page.upcoming', [
+        'title' => 'upcoming',
+        'active' => 'upcoming',
+        'posts' => $upcoming
+    ]);
 });
 Route::get('/cities', function () {
     $cities = Movie::getCities();

@@ -9,6 +9,11 @@ class DetailController extends Controller
 {
     public function index($id)
     {
-        return $movie = Movie::getDetails($id);
+        $movie = Movie::getDetails($id);
+        return view('page.detail', [
+            'title' => $movie['title'],
+            'active' => 'playing',
+            'movie' => $movie,
+        ]);
     }
 }
