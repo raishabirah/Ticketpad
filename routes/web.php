@@ -8,6 +8,8 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderAjaxController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Models\Movie;
 
 /*
@@ -23,6 +25,16 @@ use App\Models\Movie;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/movie/{id}', [DetailController::class, 'index']);
+
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/logout', [LoginController::class, 'logout']);
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store']);
+
 Route::get('/upcoming', function () {
     $upcoming = Movie::getUpcoming();
     return view('page.upcoming', [
@@ -48,16 +60,20 @@ Route::get('/schedules/{theater}/{id}', function ($theater, $id) {
 Route::post('search', [AjaxController::class, 'ajaxSearch'])->name('search');
 Route::get('search', [SearchController::class, 'index']);
 
-Route::get('/order', [OrderController::class, 'index']);
-Route::post('/pay', [OrderController::class, 'insertData']);
-Route::post('/payment', [OrderController::class, 'order']);
-Route::get('/payment', [OrderController::class, 'order']);
+// route auth
+Route::middleware('auth')->group(function () {
+    //order
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::post('/pay', [OrderController::class, 'insertData']);
+    Route::post('/payment', [OrderController::class, 'order']);
+    Route::get('/payment', [OrderController::class, 'order']);
+    Route::controller(OrderAjaxController::class)->group(function () {
+        Route::post('order-ajax-cities', 'cities')->name('order.cities');
+        Route::post('order-ajax-pending-payment', 'pendingPayment')->name('order.pending.payment');
+        Route::post('order-ajax-success-payment', 'successPayment')->name('order.success.payment');
+        Route::post('order-ajax-theaters', 'theaters')->name('order.theaters');
+        Route::post('order-ajax-schedules', 'schedules')->name('order.schedules');
+        Route::post('order-ajax-schedules-details', 'schedulesDetails')->name('order.schedules.details');
+    });
 
-Route::controller(OrderAjaxController::class)->group(function () {
-    Route::post('order-ajax-cities', 'cities')->name('order.cities');
-    Route::post('order-ajax-pending-payment', 'pendingPayment')->name('order.pending.payment');
-    Route::post('order-ajax-success-payment', 'successPayment')->name('order.success.payment');
-    Route::post('order-ajax-theaters', 'theaters')->name('order.theaters');
-    Route::post('order-ajax-schedules', 'schedules')->name('order.schedules');
-    Route::post('order-ajax-schedules-details', 'schedulesDetails')->name('order.schedules.details');
 });
