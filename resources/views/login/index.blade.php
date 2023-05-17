@@ -62,7 +62,7 @@
           <div class="card-body">
             <form action="/login" method="post" class="text-white">
               @csrf
-              <div class="form-group">
+              <div class="form-group mb-3">
                 <label for="email">Email: </label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" autofocus required value="{{ old('email') }}" placeholder="name@example.com">
                 @error('email')
@@ -75,20 +75,13 @@
                 <label for="password">Password: </label>
                 <input type="password" class="form-control" name="password" id="password" required placeholder="Password" required>
               </div>
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" name="remember" class="custom-control-input" id="remember">
-                <label class="custom-control-label" for="remember">Remember Me</label>
-              </div>
               <button type="submit" class="btn btn-primary w-100" name="submit">Login</button>
                 <hr>
             </form>
-            <a href="{{ url('auth/google') }}">
-              <button class="btn btn-light w-100" name="submit">Login with Google</button>
-            </a>
           </div>
           <p class="text-center text-white" style="font-size: 14px;">Belum memiliki akun? <a href="/register" style="text-decoration: none;">Register Sekarang!</a></p>
           <div class="card-footer text-center text-white">
-            <small>&copy; 2022 Arjuna</small>
+            <small>&copy; 2023 Ticketpad</small>
           </div>
         </div>
       </div>
