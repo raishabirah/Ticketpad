@@ -45,7 +45,7 @@ class Movie extends Model
     {
         $cities = Http::get(self::$urlApi . "cities");
         $status_code = $cities->status();
-        if ($status_code = 200) {
+        if ($status_code == 200) {
             $cities = $cities->json();
             return collect($cities);
         }
@@ -55,7 +55,7 @@ class Movie extends Model
     {
         $cities = Http::get(self::$urlApi . "cities/" . $city_id);
         $status_code = $cities->status();
-        if ($status_code = 200) {
+        if ($status_code == 200) {
             $cities = $cities->json();
             return collect($cities);
         }
@@ -65,7 +65,7 @@ class Movie extends Model
     {
         $theater = Http::get(self::$urlApi . "theaters?city_id=$city_id");
         $status_code = $theater->status();
-        if ($status_code = 200) {
+        if ($status_code == 200) {
             $theater = $theater->json();
             return collect($theater);
         }
@@ -75,17 +75,17 @@ class Movie extends Model
     {
         $schedules = Http::get(self::$urlApi . "schedules/$theater");
         $status_code = $schedules->status();
-        if ($status_code = 200) {
+        if ($status_code == 200) {
             $schedules = $schedules->json();
             return collect($schedules);
         }
     }
 
-    public static function getSchedulesDetail($theater)
+    public static function getSchedulesDetail($theater, $id)
     {
         $schedules = Http::get(self::$urlApi . "schedules/$theater/$id");
         $status_code = $schedules->status();
-        if ($status_code = 200) {
+        if ($status_code == 200) {
             $schedules = $schedules->json();
             return collect($schedules);
         }
